@@ -8,7 +8,7 @@ export default function AboutWindow() {
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-4">About Me</h2>
         <p className="text-gray-700 leading-relaxed mb-4">
-          I'm a Junior Software Engineer based in Flevoland, Netherlands, passionate about creating 
+          I&apos;m a Junior Software Engineer based in Flevoland, Netherlands, passionate about creating 
           innovative solutions and interactive experiences. I specialize in Java/Kotlin development 
           for professional work while exploring games and interactive art in my personal projects.
         </p>

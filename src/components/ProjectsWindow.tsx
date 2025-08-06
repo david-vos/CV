@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, Github, Globe, Code } from "lucide-react";
+import { Github, Globe } from "lucide-react";
 
 export default function ProjectsWindow() {
   const projects = [

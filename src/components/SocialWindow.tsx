@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Linkedin, Globe, Mail, Twitter, Instagram, Youtube } from "lucide-react";
+import { Github, Linkedin, Globe, Mail } from "lucide-react";
 
 export default function SocialWindow() {
   const socialLinks = [
@@ -43,7 +43,7 @@ export default function SocialWindow() {
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-4">Social & Contact</h2>
         <p className="text-gray-700 leading-relaxed mb-4">
-          Connect with me across different platforms. I'm always open to new opportunities and collaborations.
+          Connect with me across different platforms. I&apos;m always open to new opportunities and collaborations.
         </p>
       </div>
 
@@ -73,7 +73,7 @@ export default function SocialWindow() {
       <div className="mt-6 pt-6 border-t border-gray-200">
         <h3 className="text-lg font-semibold mb-3">Get In Touch</h3>
         <p className="text-gray-700 text-sm mb-4">
-          I'm always interested in hearing about new opportunities, interesting projects, or just connecting with fellow developers and creatives.
+          I&apos;m always interested in hearing about new opportunities, interesting projects, or just connecting with fellow developers and creatives.
         </p>
         <div className="flex gap-2">
           <a

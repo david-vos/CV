@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import type { ReactNode } from "react";
 
 interface WindowProps {
@@ -28,7 +28,7 @@ export default function Window({
   onFocus,
   isFocused = false
 }: WindowProps) {
-  const [position, setPosition] = useState(initialPosition || { x: 0, y: 0 });
+  const [position, setPosition] = useState(initialPosition ?? { x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(!isStartingWindow);
@@ -133,7 +133,7 @@ export default function Window({
     setIsDragging(true);
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     if (isDragging && windowRef.current) {
       const newX = e.clientX - dragOffset.x;
       const newY = e.clientY - dragOffset.y;
@@ -149,9 +149,9 @@ export default function Window({
         });
       }
     }
-  };
+  }, [isDragging, dragOffset, width, height]);
 
-  const handleTouchMove = (e: TouchEvent) => {
+  const handleTouchMove = useCallback((e: TouchEvent) => {
     if (isDragging && windowRef.current) {
       const touch = e.touches[0];
       if (!touch) return;
@@ -170,7 +170,7 @@ export default function Window({
         });
       }
     }
-  };
+  }, [isDragging, dragOffset, width, height]);
 
   const handleMouseUp = () => {
     setIsDragging(false);
@@ -194,7 +194,7 @@ export default function Window({
         document.removeEventListener('touchend', handleTouchEnd);
       };
     }
-  }, [isDragging, dragOffset, width, height]);
+  }, [isDragging, handleMouseMove, handleTouchMove]);
 
   // Don't render until mounted to prevent hydration mismatch
   if (!isMounted) {

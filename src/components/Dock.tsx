@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { User, X, FolderOpen, Share2, Code, Mail } from "lucide-react";
+import { useState } from "react";
+import { User, FolderOpen, Share2, Code, Mail } from "lucide-react";
 
 interface DockItem {
   id: string;
@@ -21,7 +21,6 @@ interface DockProps {
 
 export default function Dock({
   onWindowOpen,
-  onWindowClose,
   onWindowFocus,
   openWindows,
   focusedWindow

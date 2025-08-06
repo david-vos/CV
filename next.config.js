@@ -6,9 +6,6 @@ import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
 const config = {
-  // Enable static generation for better performance
-  output: 'standalone',
-  
   // Optimize images
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -44,14 +41,6 @@ const config = {
   
   // Compress static assets
   compress: true,
-  
-  // Enable SWC minification
-  swcMinify: true,
-  
-  // Optimize bundle size
-  experimental: {
-    optimizeCss: true,
-  },
 };
 
 export default config;

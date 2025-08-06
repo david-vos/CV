@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Github, Linkedin, Mail, ExternalLink, Globe, Music, Home } from "lucide-react";
+import { useState } from "react";
+import { Github, Linkedin, Mail, Globe, Music, Home } from "lucide-react";
 import Window from "../components/Window";
 import Dock from "../components/Dock";
 import AboutWindow from "../components/AboutWindow";
@@ -15,7 +15,6 @@ import ClientOnly from "../components/ClientOnly";
 export default function HomePage() {
   const [openWindows, setOpenWindows] = useState<string[]>([]);
   const [focusedWindow, setFocusedWindow] = useState<string | null>(null);
-  const [nextZIndex, setNextZIndex] = useState(40);
 
   const handleWindowOpen = (windowId: string) => {
     if (!openWindows.includes(windowId)) {
