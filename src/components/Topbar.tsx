@@ -4,12 +4,16 @@ import { useState, useEffect } from "react";
 import { Bell, Battery, Wifi, Signal } from "lucide-react";
 
 export default function Topbar() {
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
   const [showNotifications, setShowNotifications] = useState(false);
   const [batteryClicked, setBatteryClicked] = useState(false);
   const [easterEggFound, setEasterEggFound] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+    setCurrentTime(new Date());
+    
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
@@ -49,8 +53,17 @@ export default function Topbar() {
         {/* Left side - Time and Date */}
         <div className="flex items-center gap-4 flex-1">
           <div className="text-center">
-            <div className="font-semibold">{formatTime(currentTime)}</div>
-            <div className="text-xs opacity-75">{formatDate(currentTime)}</div>
+            {isMounted && currentTime ? (
+              <>
+                <div className="font-semibold">{formatTime(currentTime)}</div>
+                <div className="text-xs opacity-75">{formatDate(currentTime)}</div>
+              </>
+            ) : (
+              <>
+                <div className="font-semibold">--:--</div>
+                <div className="text-xs opacity-75">--</div>
+              </>
+            )}
           </div>
         </div>
 
