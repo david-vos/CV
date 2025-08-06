@@ -32,16 +32,25 @@ export default function Window({
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(!isStartingWindow);
+  const [isMounted, setIsMounted] = useState(false);
   const windowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+    
     // Center the window initially if it's the starting window or no initial position is provided
     if (isStartingWindow || !initialPosition) {
       const centerWindow = () => {
-        const centerX = (window.innerWidth - width) / 2;
-        const centerY = (window.innerHeight - height) / 2;
-        setPosition({ x: centerX, y: centerY });
-        setIsVisible(true);
+        if (typeof window !== 'undefined') {
+          const centerX = (window.innerWidth - width) / 2;
+          const centerY = (window.innerHeight - height) / 2;
+          setPosition({ x: centerX, y: centerY });
+          setIsVisible(true);
+        }
       };
       
       // Small delay to ensure the component has rendered
@@ -50,22 +59,26 @@ export default function Window({
     } else {
       setIsVisible(true);
     }
-  }, [isStartingWindow, initialPosition, width, height]);
+  }, [isMounted, isStartingWindow, initialPosition, width, height]);
 
   useEffect(() => {
+    if (!isMounted) return;
+    
     // Handle viewport resize for starting windows
     if (isStartingWindow) {
       const handleResize = () => {
-        setPosition({
-          x: (window.innerWidth - width) / 2,
-          y: (window.innerHeight - height) / 2
-        });
+        if (typeof window !== 'undefined') {
+          setPosition({
+            x: (window.innerWidth - width) / 2,
+            y: (window.innerHeight - height) / 2
+          });
+        }
       };
       
       window.addEventListener('resize', handleResize);
       return () => window.removeEventListener('resize', handleResize);
     }
-  }, [isStartingWindow, width, height]);
+  }, [isMounted, isStartingWindow, width, height]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -126,13 +139,15 @@ export default function Window({
       const newY = e.clientY - dragOffset.y;
       
       // Keep window within viewport bounds
-      const maxX = window.innerWidth - width;
-      const maxY = window.innerHeight - height;
-      
-      setPosition({
-        x: Math.max(0, Math.min(newX, maxX)),
-        y: Math.max(0, Math.min(newY, maxY))
-      });
+      if (typeof window !== 'undefined') {
+        const maxX = window.innerWidth - width;
+        const maxY = window.innerHeight - height;
+        
+        setPosition({
+          x: Math.max(0, Math.min(newX, maxX)),
+          y: Math.max(0, Math.min(newY, maxY))
+        });
+      }
     }
   };
 
@@ -145,13 +160,15 @@ export default function Window({
       const newY = touch.clientY - dragOffset.y;
       
       // Keep window within viewport bounds
-      const maxX = window.innerWidth - width;
-      const maxY = window.innerHeight - height;
-      
-      setPosition({
-        x: Math.max(0, Math.min(newX, maxX)),
-        y: Math.max(0, Math.min(newY, maxY))
-      });
+      if (typeof window !== 'undefined') {
+        const maxX = window.innerWidth - width;
+        const maxY = window.innerHeight - height;
+        
+        setPosition({
+          x: Math.max(0, Math.min(newX, maxX)),
+          y: Math.max(0, Math.min(newY, maxY))
+        });
+      }
     }
   };
 
@@ -178,6 +195,11 @@ export default function Window({
       };
     }
   }, [isDragging, dragOffset, width, height]);
+
+  // Don't render until mounted to prevent hydration mismatch
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div 

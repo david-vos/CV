@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Github, Linkedin, Mail, ExternalLink, Globe, Music, Home } from "lucide-react";
 import Window from "../components/Window";
 import Dock from "../components/Dock";
@@ -15,6 +15,11 @@ export default function HomePage() {
   const [openWindows, setOpenWindows] = useState<string[]>([]);
   const [focusedWindow, setFocusedWindow] = useState<string | null>(null);
   const [nextZIndex, setNextZIndex] = useState(40);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleWindowOpen = (windowId: string) => {
     if (!openWindows.includes(windowId)) {
@@ -33,6 +38,11 @@ export default function HomePage() {
   const handleWindowFocus = (windowId: string) => {
     setFocusedWindow(windowId);
   };
+
+  // Don't render until mounted to prevent hydration mismatch
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <main className="min-h-screen animated-bg gradient-bg relative overflow-hidden">
